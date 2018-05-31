@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+ -->
+<mapper namespace="com.zcnhome.common.dao.SystemConfigMapper">
+    <sql id="SystemConfigMapperColumns">
+			config.id AS id,
+			config.param_key AS paramKey,
+			config.param_value AS paramValue,
+			config.description AS description,
+			config.extend AS extend,
+			config.modifier AS modifier,
+			config.modify_time AS modifyTime	
+	</sql>
+	<select id="getList" resultType="SystemConfigModel">
+		SELECT
+			config.param_key AS paramKey,
+			config.param_value AS paramValue
+		FROM t_system_config as config 
+		WHERE 1=1
+		<![CDATA[
+		and config.id <= 10
+		]]>
+	</select>
+	<!-- 更新系统配置信息 -->
+	<update id="update">
+		UPDATE t_system_config SET 
+		param_value = #{paramValue},
+		modifier = #{modifier},
+		modify_time = SYSDATE()
+		WHERE  id = #{id}
+	</update>
+	<!-- 查询系统配置信息 -->
+	<select id="get" resultType="String">
+		SELECT
+			config.param_value AS paramValue
+		FROM t_system_config as config 
+		WHERE 
+			config.param_key =#{paramKey}
+	</select>
+	
+
+</mapper>

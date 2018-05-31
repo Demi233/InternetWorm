@@ -1,0 +1,67 @@
+@CHARSET "UTF-8";
+
+body{
+	padding-left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 550px;
+    min-width: 1100px;
+    background: #3c3b4d;
+}
+
+.mian-content{
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 1100px;
+    height: 475px;
+    margin: auto;
+    padding: 0 0 40px;
+}
+
+
+.login-hd {
+    height: 45px;
+    margin-bottom: 30px;
+}
+
+.login-hd .title {
+    display: inline-block;
+    margin-right: 14px;
+    color: #fff;
+    font-size: 32px;
+    font-weight: 400;
+}
+
+
+
+.login-bd {
+    overflow: hidden;
+}
+
+.login-bd div.login-cover {
+    float: left;
+    width: 740px;
+    height: 400px;
+}
+
+.login-bd .login-mn {
+    position: relative;
+    float: left;
+    height: 400px;
+    padding: 0 30px;
+    background: #fff;
+}
+
+.login-bd .input-item .icon-user {
+    background-position: 0 -16px;
+}
+.login-bd .input-item .fa {
+    display: block;
+    height: 16px;
+    margin: 7px 14px;
+}
+
+.login-bd .mn-hd{margin:46px 0 30px;font-size:24px;color:#596780;line-height:34px;text-align:center}.login-bd .mn-hd.vc{overflow:hidden}.login-bd .mn-hd.vc .account{float:left}.login-bd .mn-hd.vc .activity{float:right;line-height:34px;font-size:14px}.login-bd .mn-hd.vc .activity a{color:#3e82f7}.login-bd .mn-hd.vc .activity a:hover{text-decoration:underline}.login-bd .mn-bd{width:300px;font-size:14px}.login-bd .input-item{margin-bottom:32px}.login-bd .input-item email,pwd{position:relative}.login-bd .input-item .item-icon-wp{position:absolute;width:46px;margin:8px 0;border-right:1px solid #d1d7e3}.login-bd .input-item .item-icon{display:block;height:16px;margin:7px 14px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAgCAMAAAAsVwj+AAAAQlBMVEUAAABaaYdZZ4BZaYBaaIFaaIBaaoBXaoNZaIBbZ4BVcY5cZoVZZ4FdZINYaIJZZ4FaaIFZZ4FaaIFaaIBYaIFbaYE5qsbtAAAAFnRSTlMAEUhwgGAwKXhoCRlhITF5aVlxWFFJrqISeQAAALhJREFUeF6Nj8FuxCAMBZ+TyZYYCCTb/f9frYSVFu1eOgejGYFkFNiywvbQzVdisHt4hlLdjsYeoXPGw8YRF3DVlKqOuPJFka6cL2X4DW0KleSq11V10CX5TrPYJnGE56GPRL+9MOgudXpWhDKWAB9aFQj0Hgj9DDP2XNenTZ4A0l85KWaFUzcNk4xVNxDz/8HAYw71BdjMNmDx+P53A8axu150l51wmqzz0sW8MqtAE/AZeEOdGfoPNMkIAoLvztMAAAAASUVORK5CYII=) no-repeat}.login-bd .input-item .icon-user{background-position:0 -16px}.icon-user:before{content:""}.login-bd .input-item input{width:229px;border:1px solid #d1d7e3;padding:13px 11px 12px 58px;font-size:14px;line-height:19px;outline:none;}.login-bd .input-item input:focus{border-color:#3e82f7}.login-bd .input-item input:-webkit-autofill{box-shadow:inset 0 0 0 1000px #fff}.login-bd .mn-bd .pwd-wp{position:relative;margin-bottom:19px;font-size:14px;line-height:19px;color:#596780}.login-bd .mn-bd .pwd-wp input[type=checkbox]{display:none}.login-bd .mn-bd .pwd-wp .remember-me{padding:0 0 0 30px;cursor:pointer}.login-bd .mn-bd .pwd-wp .icon-check{position:absolute;top:0;left:0;bottom:0;width:17px;height:17px;border:1px solid #d1d7e3;margin:0 10px 0 0}.login-bd .mn-bd .pwd-wp input[type=checkbox]:checked+.icon-check:after{opacity:1}.login-bd .mn-bd .pwd-wp input[type=checkbox]:checked+.icon-check{background:#3e82f7;border-color:#3e82f7}.login-bd .mn-bd .pwd-wp .icon-check:after{content:"\E622";position:absolute;left:0;top:0;line-height:17px;color:#fff;opacity:0}.login-bd .forget-pwd{float:right;color:#3e82f7}.login-bd .forget-pwd:hover{text-decoration:underline}.login-bd .icon-error{display:inline-block;width:16px;height:16px;background:url(/static/images/vp/login-icon.png) 0 -233px}.login-bd .login-btn{display:block;height:46px;padding:0;border:0;line-height:46px;text-align:center;font-size:16px;background-color:#3e82f7}.login-bd .login-btn:hover{background:#3b78e7}.login-bd .login-btn .login{vertical-align:9px}.login-bd .login-mn .error-bubble{position:absolute;margin-top:2px;display:none;color:#f26d7e}.login-bd .login-mn .shake-effect{display:block;-webkit-animation:shake .5s ease-in-out;animation:shake .5s ease-in-out}.login-bd .login-mn .error-icon{display:inline-block;width:16px;height:16px;background:url(/static/images/vp/login-icon.png) no-repeat 0 -233px;vertical-align:middle;margin-right:3px}.login-bd .login-mn .error-txt{line-height:16px;vertical-align:middle}.login-bd .login-mn .error-txt .contact-kefu{color:#3e82f7}.login-bd .login-mn .error-txt .contact-kefu:hover{text-decoration:underline}@-webkit-keyframes shake{0%{left:-200px}25%{left:-195px}50%{left:-200px}75%{left:-195px}to{left:-200px}}@keyframes shake{0%{left:-200px}25%{left:-195px}50%{left:-200px}75%{left:-195px}to{left:-200px}}.login-intro .intro-item{display:inline-block;width:40%;margin-left:100px}.login-intro .intro-icon{float:left;width:115px;height:115px;background:url(/static/images/vp/login-icon.png) no-repeat}.login-intro .icon-service{background-position:0 -115px}.login-intro .intro-cnt{margin-left:150px;margin-top:30px}.login-intro .intro-cnt h2{font-weight:400;margin-bottom:10px}.login-intro .intro-cnt a{color:#aaa;margin-right:10px}.login-intro .intro-cnt a:hover{text-decoration:underline;color:#29a9ee}

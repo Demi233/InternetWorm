@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc classpath:/org/springframework/web/servlet/config/spring-mvc-4.3.xsd
+            http://www.springframework.org/schema/beans classpath:/org/springframework/beans/factory/xml/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/aop classpath:/org/springframework/aop/config/spring-aop-4.3.xsd
+            http://www.springframework.org/schema/task classpath:/org/springframework/scheduling/config/spring-task-4.3.xsd
+            http://www.springframework.org/schema/tx classpath:/org/springframework/transaction/config/spring-tx-4.3.xsd
+            http://www.springframework.org/schema/util classpath:/org/springframework/beans/factory/xml/spring-util-4.3.xsd
+            http://www.springframework.org/schema/context classpath:/org/springframework/context/config/spring-context-4.3.xsd">
+
+	<!-- 注解扫描包 -->
+	<context:component-scan base-package="com.zcnhome" />
+
+	<!-- 开启注解 -->
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:message-converters register-defaults="true">
+            
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" />
+            </bean>
+            <!-- 配置fastjson支持，将Jackson2HttpMessageConverter的默认格式化输出为true -->
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="features">
+		            <list>
+		                <value>QuoteFieldNames</value><!-- 输出key时是否使用双引号 -->
+		                <!-- <value>WriteMapNullValue</value> --><!-- 是否输出值为null的字段 -->
+		                <value>WriteNullNumberAsZero</value><!-- 数值字段如果为null,输出为0,而非null -->
+		                <value>WriteNullListAsEmpty</value><!-- List字段如果为null,输出为[],而非null -->
+		                <value>WriteNullStringAsEmpty</value><!-- 字符类型字段如果为null,输出为"",而非null -->
+		                <value>WriteNullBooleanAsFalse</value><!-- Boolean字段如果为null,输出为false,而非null -->
+		                <value>WriteDateUseDateFormat</value><!-- Date的日期转换器,yyyy-MM-dd HH:mm:ss -->
+		            </list>
+                </property>
+                <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss" />
+            </bean>
+        </mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<!-- <bean class="com.ll.model.StringToPersonConverter" /> -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置 AspectJ -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- 配置静态资源，直接映射到对应的文件夹，不被DispatcherServlet处理，3.04新增功能，需要重新设置spring-mvc-3.0.xsd -->
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/ftl/**" location="/ftl/" />
+	<mvc:resources mapping="/plugins/**" location="/plugins/" />
+	<mvc:resources mapping="/favicon.ico" location="/favicon.ico" />
+
+	<!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 -->
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>

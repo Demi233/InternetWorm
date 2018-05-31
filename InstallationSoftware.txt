@@ -1,0 +1,5 @@
+1.Eclipse开发软件。
+2.Tomcat服务器。
+3.JDK：Java语言的软件开发工具包。
+2.Navicat Premium：数据库管理工具。
+3.谷歌、火狐、搜歌等浏览器。

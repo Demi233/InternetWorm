@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc classpath:/org/springframework/web/servlet/config/spring-mvc-4.3.xsd
+            http://www.springframework.org/schema/beans classpath:/org/springframework/beans/factory/xml/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/aop classpath:/org/springframework/aop/config/spring-aop-4.3.xsd
+            http://www.springframework.org/schema/task classpath:/org/springframework/scheduling/config/spring-task-4.3.xsd
+            http://www.springframework.org/schema/tx classpath:/org/springframework/transaction/config/spring-tx-4.3.xsd
+            http://www.springframework.org/schema/util classpath:/org/springframework/beans/factory/xml/spring-util-4.3.xsd
+            http://www.springframework.org/schema/context classpath:/org/springframework/context/config/spring-context-4.3.xsd">
+
+
+	<!-- 配置国际化资源文件路径 -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename">
+            <!-- 定义消息资源文件的相对路径 -->
+            <value>messages/message</value>
+        </property>
+    </bean>
+    
+    <!-- 基于Cookie的本地化解析器 -->
+     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+       <property name="cookieMaxAge" value="604800"/>
+       <property name="defaultLocale" value="zh_CN"/>
+       <property name="cookieName" value="Language"></property>
+     </bean>
+	
+	<!-- 配置文件properties加载器  -->
+	<bean id="propertiesHolder" class="com.zcnhome.common.utils.PropertiesHolder">
+		<property name="locations">
+			<list>
+				<value>classpath:configuration.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 保存变量到application范围 -->
+    <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+        <property name="attributes">
+            <map>
+                <entry key="appTitle" value="${app.title}"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean id="jdbc.dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${sys.jdbc.driver}" />
+		<property name="url" value="${sys.jdbc.url}" />
+		<property name="username" value="${sys.jdbc.username}" />
+		<property name="password" value="${sys.jdbc.password}" />
+		<property name="initialSize" value="${sys.jdbc.initialSize}" />
+		<property name="maxActive" value="${sys.jdbc.maxActive}" />
+		<property name="maxIdle" value="${sys.jdbc.maxIdle}" />
+		<property name="minIdle" value="${sys.jdbc.minIdle}" />
+		<property name="maxWait" value="${sys.jdbc.maxWait}" />
+		<property name="validationQuery" value="${sys.jdbc.testsql}" />
+		<property name="validationQueryTimeout" value="3" /> 
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="180" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="1800000" />
+		<property name="minEvictableIdleTimeMillis" value="1800000" />
+		<property name="numTestsPerEvictionRun" value="${sys.jdbc.maxActive}" />
+		<!-- 此配置用于在创建Connection对象时执行指定的初始化sql -->
+    	<property name="connectionInitSqls" value="set names utf8mb4;" />
+	</bean>
+
+	<bean id="paginationInterceptor" class="com.zcnhome.common.paginations.PaginationInterceptor" />
+
+	<bean id="jdbc.sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="jdbc.dataSource" />
+		<property name="typeAliasesPackage" value="com.zcnhome" />
+		<property name="typeAliasesSuperType" value="com.zcnhome.common.models.BasicModel" />
+		<property name="mapperLocations" value="classpath:/com/zcnhome/**/*.xml" />
+		<property name="configLocation" value="classpath:/mybatis/mybatis.xml" />
+		<property name="plugins" ref="paginationInterceptor" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.zcnhome.**.dao" />
+		<property name="sqlSessionFactoryBeanName" value="jdbc.sqlSessionFactory" />
+	</bean>
+
+	<bean id="jdbc.transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="jdbc.dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="jdbc.transactionManager" proxy-target-class="true" />
+
+
+	<bean id="multipartResolver" class="com.zcnhome.common.utils.MultipartResolver">
+		<constructor-arg ref="propertiesHolder" />
+	</bean>
+</beans>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zcnhome.business.dao.BookinfoMapper" >
+   <resultMap id="BaseResultMap" type="BoolInfoModel" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="press" property="press" jdbcType="VARCHAR" />
+    <result column="press_date" property="pressDate" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="link" property="link" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+     <result column="title" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, num, image, author, press, press_date, price, link, tag,status,title
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bookinfo
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+    
+  <select id="selectTag" resultType="string">
+     SELECT DISTINCT  tag FROM bookinfo  <!-- 返回tag列中唯一不同的值（列中多个相同的则会返回一个值） -->
+  </select>
+  
+  <select id="selectTitle" resultType="string">
+     SELECT DISTINCT  title FROM bookinfo  <!-- 返回tag列中唯一不同的值（列中多个相同的则会返回一个值） -->
+  </select>
+ 
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bookinfo
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+ 
+ <select id="find" resultType="BoolInfoModel">
+ 	select id, title,num, image, author, press, press_date, price, link, tag,status from bookinfo 
+ 	<where>
+			<if test="title != null and title != ''">
+			  AND title LIKE concat('%',#{title},'%')<!--  根据输入字段和名称来对比，然后按条件模糊查询 -->
+			</if>
+			<if test="author != null and author != ''">
+			  AND author LIKE concat('%',#{author},'%')<!--  根据输入字段和名称来对比，然后按条件模糊查询 -->
+			</if>
+			<if test="press != null and press != ''">
+			  AND press LIKE concat('%',#{press},'%')<!--  根据输入字段和名称来对比，然后按条件模糊查询 -->
+			</if><if test="pressDate != null and pressDate != ''">
+			  AND press_date LIKE concat('%',#{pressDate},'%')<!--  根据输入字段和名称来对比，然后按条件模糊查询 -->
+			</if><if test="price != null and price != ''">
+			  AND price LIKE concat('%',#{price},'%')<!--  根据输入字段和名称来对比，然后按条件模糊查询 -->
+			</if>
+		   and <![CDATA[status <> 0 ]]> <!-- mybaits的写法：状态status不为0也就是删除状态的不显示 -->
+ 		</where>
+ </select>
+
+  <insert id="insert" parameterType="BoolInfoModel" >
+    insert into bookinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="press != null" >
+        press,
+      </if>
+      <if test="pressDate != null" >
+        press_date,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="link != null" >
+        link,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="pressDate != null" >
+        #{pressDate,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+       <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+<!-- 将删除的该行信息对应的状态更新为不显示（status为0删除） -->
+  <update id="update" parameterType="BoolInfoModel" >
+    update bookinfo
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="press != null" >
+        press = #{press,jdbcType=VARCHAR},
+      </if>
+      <if test="pressDate != null" >
+        press_date = #{pressDate,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null" >
+        link = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：必须与对应的接口全类名一致 id:必须与对应接口的某个对应的方法名一致 -->
+<mapper namespace="com.zcnhome.business.dao.UserMapper">
+
+
+	<!-- 用户表数据列 -->
+	<sql id="UserMapperColumns">
+	  	a.id AS id ,
+		a.account AS account ,
+		a.password AS password ,
+		a.status AS status ,
+		a.name AS name ,
+		a.union_id AS unionId ,
+		a.nick_name AS nickName ,
+		a.telephone AS telephone ,
+ 		a.mobile AS "mobile",
+  		a.birthday AS birthday,
+  		a.qq AS qq,
+  		a.delivery_address AS deliveryAddress,
+		a.sex AS sex ,
+		a.email AS email ,
+		a.email_passable AS emailPassable,
+		a.image AS image ,
+		a.role_id AS roleId,
+		a.creator AS creator ,
+		a.modifier AS modifier ,
+		a.create_time AS createTime ,
+		a.modify_time AS modifyTime 
+	</sql>
+	
+	<!-- 关联查询 -->
+	<sql id="userJoins">
+	</sql>
+	
+	<select id="getPassword" resultType="String">
+		SELECT
+			password
+		FROM t_user a
+		<include refid="userJoins" />
+		WHERE a.id = #{id}
+	</select>
+	
+
+	<!-- 获取单个用户信息 -->
+	<select id="getUser" resultType="UserModel">
+		SELECT
+		<include refid="UserMapperColumns" />
+		FROM t_user a
+		<include refid="userJoins" />
+		WHERE (a.account = #{account} or a.mobile =#{account}) and a.password=#{password}
+	</select>
+	
+	<!-- 校验用户唯一性 -->
+	<select id="checkUserOnly" resultType="UserModel">
+		SELECT 
+			<include refid="UserMapperColumns" />
+			FROM t_user a
+		WHERE 1 = 1
+		<if test="account!='' and account!=null">
+			and a.account = #{account}
+		</if>
+		<if test="mobile!='' and mobile!=null">
+			and a.mobile = #{mobile}
+		</if>
+		<if test="email!='' and email!=null">
+			and a.email = #{email}
+		</if>
+	</select>
+
+	<!-- 重置密码 -->
+	<update id="updatePwd">
+		UPDATE t_user SET
+		modify_time = SYSDATE(),
+		<if test="password != null and password != ''">
+			password = #{password}
+		</if>
+		WHERE id = #{id}
+		<if test="email != null and email != ''">
+			or email = #{email}
+		</if>
+	</update>
+</mapper>
